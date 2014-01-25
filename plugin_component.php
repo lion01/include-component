@@ -3,7 +3,7 @@
 # plugin_component.php - Include component plugin
 # ------------------------------------------------------------------------
 # author    Ander Juaristi
-# copyright Copyright (C) 2013-2014 Ander Juaristi. All Rights Reserved.
+# copyright Copyright (C) 2014 Ander Juaristi. All Rights Reserved.
 # @license - http://www.gnu.org/copyleft/gpl.html GNU/GPL
 # Websites: http://www.burgersoftware.es
 # Technical Support: http://www.burgersoftware.es
@@ -12,6 +12,9 @@
 
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
+
+define('IC_AUTHOR', 'Ander Juaristi');
+define('IC_VERSION', 1.14.2);
 
 jimport( 'joomla.plugin.plugin' );
 jimport( 'joomla.html.parameter' );
@@ -520,7 +523,7 @@ class plgSystemPlugin_component extends JPlugin
 			}
 		}
 
-		$content = "\n<!-- Plugin Include component version 1.13 by Mike Reumer";
+		$content = "\n<!-- Plugin Include component version " . IC_VERSION . " by " . IC_AUTHOR;
 		$content .= "\n     for: ".$url." -->";
 		$content .= "\n".$response;
 		$content .= "\n<!-- End Plugin Include component -->";
