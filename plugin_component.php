@@ -102,26 +102,7 @@ class plgSystemPlugin_component extends JPlugin
 	 */
 	public function onContentPrepare($context, &$article, &$params, $limitstart=0)
 	{
-		$app = JFactory::getApplication();
-		if($app->isAdmin()) {
-			return;
-		}
-		
-		// get document types
-		$this->_getdoc();
-
-		$text = &$article->text;
-		$introtext = &$article->introtext;
-		
-		// check whether plugin has been unpublished
-		if ( !$this->params->get( 'enabled', 1 ) ) {
-			$text = preg_replace( $this->regex, '', $text );
-			return true;
-		}
-	
-		// perform the replacement	
-		$this->_replace( $text );	
-		$this->_replace( $introtext );	
+		return onPrepareContent($article);	
 	}
 	
 	/**
