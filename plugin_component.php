@@ -14,7 +14,7 @@
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
 define('IC_AUTHOR', 'Ander Juaristi');
-define('IC_VERSION', 1.14.2);
+define('IC_VERSION', 1.15);
 
 jimport( 'joomla.plugin.plugin' );
 jimport( 'joomla.html.parameter' );
@@ -102,7 +102,7 @@ class plgSystemPlugin_component extends JPlugin
 	 */
 	public function onContentPrepare($context, &$article, &$params, $limitstart=0)
 	{
-		return onPrepareContent($article);	
+		return $this->onPrepareContent($article);
 	}
 	
 	/**
