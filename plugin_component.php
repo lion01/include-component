@@ -3,7 +3,7 @@
 # plugin_component.php - Include component plugin
 # ------------------------------------------------------------------------
 # author    Ander Juaristi
-# copyright Copyright (C) 2013-2014 Ander Juaristi. All Rights Reserved.
+# copyright Copyright (C) 2014 Ander Juaristi. All Rights Reserved.
 # @license - http://www.gnu.org/copyleft/gpl.html GNU/GPL
 # Websites: http://www.burgersoftware.es
 # Technical Support: http://www.burgersoftware.es
@@ -12,6 +12,9 @@
 
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
+
+define('IC_AUTHOR', 'Ander Juaristi');
+define('IC_VERSION', 1.15);
 
 jimport( 'joomla.plugin.plugin' );
 jimport( 'joomla.html.parameter' );
@@ -99,26 +102,7 @@ class plgSystemPlugin_component extends JPlugin
 	 */
 	public function onContentPrepare($context, &$article, &$params, $limitstart=0)
 	{
-		$app = JFactory::getApplication();
-		if($app->isAdmin()) {
-			return;
-		}
-		
-		// get document types
-		$this->_getdoc();
-
-		$text = &$article->text;
-		$introtext = &$article->introtext;
-		
-		// check whether plugin has been unpublished
-		if ( !$this->params->get( 'enabled', 1 ) ) {
-			$text = preg_replace( $this->regex, '', $text );
-			return true;
-		}
-	
-		// perform the replacement	
-		$this->_replace( $text );	
-		$this->_replace( $introtext );	
+		return $this->onPrepareContent($article);
 	}
 	
 	/**
@@ -520,7 +504,7 @@ class plgSystemPlugin_component extends JPlugin
 			}
 		}
 
-		$content = "\n<!-- Plugin Include component version 1.13 by Mike Reumer";
+		$content = "\n<!-- Plugin Include component version " . IC_VERSION . " by " . IC_AUTHOR;
 		$content .= "\n     for: ".$url." -->";
 		$content .= "\n".$response;
 		$content .= "\n<!-- End Plugin Include component -->";
@@ -555,6 +539,7 @@ class plgSystemPlugin_component extends JPlugin
 			if (function_exists('curl_init')) {
 				$ch = curl_init( $url );
 				// Set curl options, see: http://www.php.net/manual/en/function.curl-setopt.php
+				curl_setopt ($ch, CURLOPT_FAILONERROR, true); // check if there is a 400+ error
 				curl_setopt ($ch, CURLOPT_RETURNTRANSFER, true); // to return the transfer as a string
 				curl_setopt ($ch, CURLOPT_USERAGENT, 'spider'); // The contents of the "User-Agent: " header
 				curl_setopt ($ch, CURLOPT_AUTOREFERER, true); // set referer on redirect
