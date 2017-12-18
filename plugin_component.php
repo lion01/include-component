@@ -539,6 +539,7 @@ class plgSystemPlugin_component extends JPlugin
 			if (function_exists('curl_init')) {
 				$ch = curl_init( $url );
 				// Set curl options, see: http://www.php.net/manual/en/function.curl-setopt.php
+				curl_setopt ($ch, CURLOPT_FAILONERROR, true); // check if there is a 400+ error
 				curl_setopt ($ch, CURLOPT_RETURNTRANSFER, true); // to return the transfer as a string
 				curl_setopt ($ch, CURLOPT_USERAGENT, 'spider'); // The contents of the "User-Agent: " header
 				curl_setopt ($ch, CURLOPT_AUTOREFERER, true); // set referer on redirect
