@@ -353,18 +353,27 @@ class plgSystemPlugin_component extends JPlugin
 						$this->_addScript($script);
 					}
 				
-				// javascript embedded
+				// javascript embedded script tag inbetween content
 				$reg = '/<script[^>]*>(.*?)<\/script>/si';
 				$scripts= array();
-				$count = preg_match_all($reg,$head,$scripts);	
+				$count = preg_match_all($reg,$head,$scripts);
+
+				// extract script types
+				$reg_type = '/<script[^>]*type=*(.*?)>/si';
+				$types= array();
+				$count_type = preg_match_all($reg_type,$head,$types);
+
 				if ($count>0)
+					$idx = 0;
 					foreach ($scripts[1] as $script) {
 						if (trim($script)!='') {
 							// remove special contents type around scripts
 							$script = str_replace('<!--', '', $script);
 							$script = str_replace('-->', '', $script);
-							$this->document->addScriptDeclaration($script);
+							//print_r($types[1][idx]);
+							$this->document->addScriptDeclaration($script, str_replace("\"", "", $types[1][$idx]));
 						}
+						$idx = $idx + 1;
 					}
 			}
 	
